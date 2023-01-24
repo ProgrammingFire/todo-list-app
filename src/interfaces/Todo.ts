@@ -1,4 +1,5 @@
 export default interface Todo{
 	todo: String,
-	isDone: boolean	
+	isDone: boolean,
+	deadline: String
 }

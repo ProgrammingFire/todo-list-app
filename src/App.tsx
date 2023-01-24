@@ -6,6 +6,7 @@ import Task from './interfaces/Task';
 function App() {
   const [tasks, setTasks] = useState<Task[]>([])
   const [todo, setTodo] = useState<String>("")
+  const [deadline, setDeadline] = useState<String>("")
   const [task, setTask] = useState<String>("")
 
   useEffect(() => {
@@ -30,7 +31,8 @@ function App() {
     const newTasks = [...tasks]
     newTasks[index].todos = [...newTasks[index].todos, {
       todo,
-      isDone: false
+      isDone: false,
+      deadline
     }]
 
     setTasks(newTasks)
@@ -60,6 +62,7 @@ function App() {
             <h1 className="text-4xl font-bold">{task.name}</h1>
             <form onSubmit={(e) => addTodo(e, task, index)} className="flex w-full flex-col items-center gap-3 lg:w-2/5 lg:flex-row">
               <input name={index.toString()} type="text" onChange={(e) => setTodo(e.target.value)} className="w-3/5 appearance-none rounded-lg bg-gray-800 py-1 px-5 text-center shadow-xl focus:border-none focus:outline-none focus:ring-4 focus:ring-indigo-200 lg:w-3/4" placeholder={`Add a To-do to ${task.name}`} />
+              <input type="date" onChange={(e) => setDeadline(e.target.value)} className="lg:w-3/4 w-3/5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block py-1 px-5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 outline-none" placeholder="Select date"></input>
               <button type='submit' className="w-3/5 appearance-none rounded-lg bg-indigo-800 py-1 px-5 text-center shadow-xl focus:border-none focus:outline-none focus:ring-4 focus:ring-gray-200 lg:w-auto">Add</button>
             </form>
 
@@ -69,7 +72,7 @@ function App() {
                   <li className="w-full rounded-t-lg border-b border-gray-200 dark:border-gray-600">
                     <div className="flex items-center pl-3">
                       <input id={todoIndex.toString()} defaultChecked={curTodo.isDone} onChange={() => handleTodoDoneChange(!curTodo.isDone, todoIndex, index)} type="checkbox" value="" className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-700" />
-                      <label htmlFor={todoIndex.toString()} className={`ml-2 w-full py-3 text-sm font-medium text-gray-900 ${curTodo.isDone ? 'line-through' : ''} dark:text-gray-300`}>{curTodo.todo}</label>
+                      <label htmlFor={todoIndex.toString()} className={`ml-2 w-full py-3 text-sm font-medium text-gray-900 ${curTodo.isDone ? 'line-through' : ''} dark:text-gray-300`}>{curTodo.todo} | Complete before {curTodo.deadline}</label>
                     </div>
                   </li>
                 ))}
